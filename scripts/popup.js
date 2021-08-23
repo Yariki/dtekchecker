@@ -5,14 +5,16 @@ $(function () {
 
     	let updCtrl = backgound.updateController;
         updCtrl.start();
-        updateState();
+        updateState(updCtrl);
     });
 
     $('#stop').click(function (ev) {
 		let updCtrl = backgound.updateController;
         updCtrl.stop();
-        updateState();
+        updateState(updCtrl);
     });
+
+    updateState(backgound.updateController);
 
     function updateState(updateController) {
         if(updateController.isStarted()){
