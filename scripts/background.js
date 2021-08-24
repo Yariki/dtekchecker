@@ -4,6 +4,9 @@ function ResponseData(status, data){
     this.data = data;
 }
 
+function clearRecordsWhileStarting(){
+    new RecordRepository().clear();
+}
 
 var notificationController = (function () {
 
@@ -74,16 +77,20 @@ let checkDtekSiteController = (function (notification) {
     let checkShutdowns = async function (){
             listShutdowns = [];
             for(var i = 1; i <= 2; i++){
-                const respose = await takeDtekData(siteUrl + i.toString());
-                if(respose.status != 200){
+                const respose = await takeDtekData(siteUrl + "1");
+                if(respose.status !== 200){
                     console.log('An error occured!');
                     continue;
                 }
                 processResult(respose.data, listShutdowns);
             }
-            if(listShutdowns.length != 0){
+            let repo = new RecordRepository();
+            if(listShutdowns.length !== 0){
                 listShutdowns.forEach(r => console.log(r));
                 notification.showMessage("Found a few shutdowns...");
+                repo.saveRecords(listShutdowns);
+            } else {
+                repo.clear();
             }
 	};
 
@@ -103,8 +110,6 @@ let checkDtekSiteController = (function (notification) {
 
         return new ResponseData(response.status,  await response.text());
     }
-
-
 
     function processResult(siteData,list){
     	let parsed = (new DOMParser()).parseFromString(siteData,"text/html");
@@ -143,7 +148,7 @@ var updateController = (function (checkController) {
 
         var isStarted = false;
         var timer = undefined;
-        var interval = 3600;
+        var interval = 30; //3600
 
         let startMonitoring = function(){
             if(isStarted) return;
@@ -178,3 +183,4 @@ var updateController = (function (checkController) {
         }
 })(checkDtekSiteController);
 
+clearRecordsWhileStarting();

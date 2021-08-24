@@ -12,3 +12,41 @@ function DtekPlanRecord( powerOffDate,  powerOnDate,  region, cities, workType, 
 	this.Time = time;
 	this.Status = status;
 }
+
+var ShutdownsList = {
+	shutdows: 'shutdowns'
+};
+Object.freeze(ShutdownsList);
+
+
+class RecordRepository {
+
+	constructor(){}
+
+	saveRecords(records){
+		chrome.storage.local.set({shutdowns: records});
+	}
+
+	isThereRecords(){
+
+		return new Promise(resolve =>
+			chrome.storage.local.get(['shutdowns'], function(records){
+				resolve(records.shutdowns !== undefined && records.shutdowns !== null && records.shutdowns.length > 0);
+			})
+		);
+	}
+
+	getRecords(){
+
+		return new Promise(resolve =>
+			chrome.storage.local.get(['shutdowns'], function(records){
+				resolve(records.shutdowns);
+			})
+		);
+	}
+
+	clear(){
+		chrome.storage.local.set({shutdowns: []});
+	}
+
+}
