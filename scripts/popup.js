@@ -44,10 +44,10 @@ $(function () {
         for (var i = 0; i < records.length;i++){
             var record = records[i];
 
-            var markup = "<tr><td>"+ record.PowerOffDate +"</td><td>" + record.PowerOnDate + "</td><td>" + record.WorkType + "</td><td>" + record.Cities + "</td><td>" + record.Status + "</td></tr>";
+            var markup = "<tr><td>"+ record.PowerOffDate +"</td><td>" + record.PowerOnDate + "</td><td>" + record.WorkType + "</td><td>" + record.Cities + "</td><td>"+ record.Time +"</td><td>" + record.Status + "</td></tr>";
             $("table tbody").append(markup);
         }
-
+        
     }
 
 

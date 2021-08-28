@@ -77,7 +77,7 @@ let checkDtekSiteController = (function (notification) {
     let checkShutdowns = async function (){
             listShutdowns = [];
             for(var i = 1; i <= 2; i++){
-                const respose = await takeDtekData(siteUrl + "1");
+                const respose = await takeDtekData(siteUrl + i.toString());
                 if(respose.status !== 200){
                     console.log('An error occured!');
                     continue;
@@ -127,7 +127,7 @@ let checkDtekSiteController = (function (notification) {
             	continue;
             }
 			var places = cells[3].innerText;
-			if(places.indexOf("Бориспіль:") == -1){
+			if(places.indexOf("Чубинське:") == -1){ // Чубинське: Бориспіль:
 				continue;
 			}
 			var shutdown = new DtekPlanRecord(cells[0].innerText, cells[1].innerText, cells[2].innerText, cells[3].innerText.trim(), cells[4].innerText.trim(), cells[5].innerText.trim(), cells[6].innerText.trim(), cells[7].innerText.trim());

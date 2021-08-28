@@ -37,7 +37,6 @@ class RecordRepository {
 	}
 
 	getRecords(){
-
 		return new Promise(resolve =>
 			chrome.storage.local.get(['shutdowns'], function(records){
 				resolve(records.shutdowns);
